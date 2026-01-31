@@ -9,6 +9,7 @@ import About from './pages/About'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
+
 const router = createBrowserRouter([
    {
     path: "/",
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
 const App = () => {
   return (
      <>
+     
       <RouterProvider router={router} />
     </>
   )

@@ -1,10 +1,9 @@
-import React from 'react'
-
+// src/components/Footer.jsx
 function Footer() {
   return (
-    <div>
-      fo
-    </div>
+    <footer className="py-6 text-center text-sm text-muted-foreground">
+      © {new Date().getFullYear()} DevScribe. All rights reserved.
+    </footer>
   )
 }
 
