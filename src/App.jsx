@@ -8,7 +8,11 @@ import Blog from './pages/Blog'
 import About from './pages/About'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-
+import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
+import CreateBlog from './pages/CreateBlog'
+import YourBlog from './pages/YourBlog'
+import Comments from './pages/Comments'
 
 const router = createBrowserRouter([
    {
@@ -34,6 +38,28 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <><Navbar/><Login /></>
+  },
+   {
+    path: "/dashboard",
+    element: <><Navbar /><Dashboard /></>,
+    children:[
+      {
+       path:"Profile",
+      element:<Profile/>
+      },
+       {
+        path: "write-blog",
+        element:<CreateBlog/>
+      },
+        {
+        path: "your-blog",
+        element:<YourBlog/>
+      },
+      {
+        path: "comments",
+        element:<Comments/>
+      },
+    ]
   },
 ])
 const App = () => {
