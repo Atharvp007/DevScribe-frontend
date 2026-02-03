@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "./ui/input";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaEdit, FaMoon, FaRegEdit, FaSun } from 'react-icons/fa'
 import { Button } from "./ui/button";
-import { Search } from "lucide-react";
+import { LiaCommentSolid } from 'react-icons/lia'
 import Logo from "../assets/logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,25 @@ import { toggleTheme } from "../redux/themeSlice";
 import { toast } from "sonner";
 import axios from "axios";
 import { setUser } from "../redux/authSlice";
+import userLogo from "../assets/user.jpg"
+import {
+    ChartColumnBig,
+    Cloud,
+    CreditCard,
+    Github,
+    Keyboard,
+    LifeBuoy,
+    LogOut,
+    Mail,
+    MessageSquare,
+    Plus,
+    PlusCircle,
+    Search,
+    Settings,
+    User,
+    UserPlus,
+    Users,
+} from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -102,66 +121,46 @@ const Navbar = () => {
             {/* LOGIN / USER SECTION */}
             {user ? (
               <div className="ml-7 flex gap-3 items-center">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-40" align="start">
-                    <DropdownMenuGroup>
-                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                      <DropdownMenuItem>
-                        Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                          Invite users
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                          <DropdownMenuSubContent>
-                            <DropdownMenuItem>Email</DropdownMenuItem>
-                            <DropdownMenuItem>Message</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>More...</DropdownMenuItem>
-                          </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                      </DropdownMenuSub>
-                      <DropdownMenuItem>
-                        New Team
-                        <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem>GitHub</DropdownMenuItem>
-                      <DropdownMenuItem>Support</DropdownMenuItem>
-                      <DropdownMenuItem disabled>API</DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem>
-                        Log out
-                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+               <DropdownMenu className="">
+                                    <DropdownMenuTrigger asChild>
+                                        <Avatar className="cursor-pointer">
+                                            <AvatarImage src={user.photoUrl || userLogo} />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56 dark:bg-gray-800">
+                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuGroup>
+                                            <DropdownMenuItem onClick={() => navigate('/dashboard/profile')}>
+                                                <User />
+                                                <span>Profile</span>
+                                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => navigate('/dashboard/your-blog')}>
+                                                <ChartColumnBig />
+                                                <span>Your Blog</span>
+                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => navigate('/dashboard/comments')}>
+                                                <LiaCommentSolid />
+                                                <span>Comments</span>
+                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => navigate('/dashboard/write-blog')}>
+                                                <FaRegEdit />
+                                                <span>Write Blog</span>
+                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuGroup>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={logoutHandler}>
+                                            <LogOut />
+                                            <span>Log out</span>
+                                            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                 <Link to="/login">
                   <Button className="hidden md:block" onClick={logoutHandler}>
                     Logout
