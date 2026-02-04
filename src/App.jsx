@@ -13,6 +13,7 @@ import Profile from './pages/Profile'
 import CreateBlog from './pages/CreateBlog'
 import YourBlog from './pages/YourBlog'
 import Comments from './pages/Comments'
+import UpdateBlog from './pages/UpdateBlog'
 
 const router = createBrowserRouter([
    {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "comments",
         element:<Comments/>
+      },
+        {
+        path: "write-blog/:blogId",
+        element: <><UpdateBlog /></>
       },
     ]
   },
