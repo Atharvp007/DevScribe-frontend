@@ -14,6 +14,7 @@ import CreateBlog from './pages/CreateBlog'
 import YourBlog from './pages/YourBlog'
 import Comments from './pages/Comments'
 import UpdateBlog from './pages/UpdateBlog'
+import BlogView from './pages/BlogView'
 
 const router = createBrowserRouter([
    {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <><Navbar/><Login /></>
+  },
+    {
+    path: "/blogs/:blogId",
+    element: <><Navbar/><BlogView /></>
   },
    {
     path: "/dashboard",

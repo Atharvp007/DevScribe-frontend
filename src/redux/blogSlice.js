@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const blogSlice = createSlice({
-  name: "auth",
+  name: "blog",
   initialState: {
     loading: false,
     blog: null

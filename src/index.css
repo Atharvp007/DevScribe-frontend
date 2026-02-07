@@ -134,3 +134,9 @@ input::-webkit-credentials-auto-fill-button {
   position: absolute;
   right: 0;
 }
+
+
+.jodit_toolbar {
+  background-color: #000000;
+  color: rgba(26, 25, 25, 0.806);
+}
