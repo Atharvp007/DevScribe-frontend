@@ -31,6 +31,7 @@ const UpdateBlog = () => {
   const { blog } = useSelector((store) => store.blog);
   const selectBlog = blog.find((blog) => blog._id === id);
   const [content, setContent] = useState(selectBlog.description);
+    const [publish, setPublish] = useState(false)
 
   const [blogData, setBlogData] = useState({
     title: selectBlog?.title,
@@ -95,6 +96,45 @@ const UpdateBlog = () => {
     }
   };
 
+  const togglePublishUnpublish = async () => {
+    try {
+      const res = await axios.patch(`http://localhost:8000/api/v1/blog/${id}`, {
+        //  params: {
+        //    action
+        //},
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        setPublish(!publish);
+        toast.success(res.data.message);
+        navigate(`/dashboard/your-blog`);
+      } else {
+        toast.error("Failed to update");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteBlog = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8000/api/v1/blog/delete/${id}`,
+        { withCredentials: true },
+      );
+      if (res.data.success) {
+        const updatedBlogData = blog.filter((blogItem) => blogItem?._id !== id);
+        dispatch(setBlog(updatedBlogData));
+        toast.success(res.data.message);
+        navigate("/dashboard/your-blog");
+      }
+      console.log(res.data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error("something went error");
+    }
+  };
+
   return (
     <div className="pb-10 px-3 pt-20 md:ml-[320px]">
       <div className="max-w-6xl mx-auto mt-8">
@@ -104,8 +144,18 @@ const UpdateBlog = () => {
             Make changes to your blogs here. Click publish when you're done.
           </p>
           <div className="space-x-2">
-            <Button>Publish</Button>
-            <Button variant="destructive">Remove Course</Button>
+            <Button
+              onClick={() =>
+                togglePublishUnpublish(
+                  selectBlog.isPublished ? "false" : "true",
+                )
+              }
+            >
+              {selectBlog?.isPublished ? "UnPublish" : "Publish"}
+            </Button>
+            <Button variant="destructive" onClick={deleteBlog}>
+              Remove Course
+            </Button>
           </div>
           <div className="pt-10">
             <Label>Title</Label>
