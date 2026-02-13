@@ -15,6 +15,7 @@ import YourBlog from './pages/YourBlog'
 import Comments from './pages/Comments'
 import UpdateBlog from './pages/UpdateBlog'
 import BlogView from './pages/BlogView'
+import SearchList from './pages/SearchList'
 
 const router = createBrowserRouter([
    {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <><Navbar/><About /><Footer/></>
+  },
+   {
+    path: "/search",
+    element: <><Navbar/><SearchList/><Footer/></>
   },
  
 

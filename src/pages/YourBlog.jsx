@@ -88,13 +88,13 @@ const YourBlog = () => {
                                 <TableRow key={index}>
                                     {/* <TableCell className="font-medium">{item.author.firstName}</TableCell> */}
                                     <TableCell className="flex gap-4 items-center">
-                                        <img src={item.thumbnail} alt="" className='w-20 h-14 rounded-md hidden md:block' />
+                                        <img src={item.thumbnail} alt="" className='w-20 rounded-md hidden md:block' />
                                         <h1 className='hover:underline cursor-pointer' onClick={() => navigate(`/blogs/${item._id}`)}>{item.title}</h1>
                                     </TableCell>
                                     <TableCell>{item.category}</TableCell>
                                     <TableCell className="">{formatDate(index)}</TableCell>
                                     <TableCell className="text-center">
-                                       
+                                      
                                         
                                         <DropdownMenu>
                                             <DropdownMenuTrigger><BsThreeDotsVertical/></DropdownMenuTrigger>
@@ -107,7 +107,7 @@ const YourBlog = () => {
                                 </TableRow>
                             ))}
                         </TableBody>
-                     
+                       
                     </Table>
 
                 </Card>

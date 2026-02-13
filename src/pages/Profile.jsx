@@ -21,6 +21,7 @@ import axios from 'axios'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { setUser } from '../redux/authSlice'
+import TotalProperty from '../components/TotalProperty'
 
 
 const Profile = () => {
@@ -251,7 +252,7 @@ const Profile = () => {
                     </div>
                 </Card>
             </div>
-            
+             <TotalProperty/>
         </div>
     )
 }

@@ -15,11 +15,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Button } from '../components/ui/button'
 import { Badge } from '../components/ui/badge'
 import { Bookmark, Heart, MessageSquare, Share2 } from 'lucide-react'
-
+import CommentBox from '../components/CommentBox'
 import axios from 'axios'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
 import { setBlog } from '../redux/blogSlice'
 import { toast } from 'sonner'
+
 const BlogView = () => {
     const params = useParams()
     const blogId = params.blogId
@@ -27,7 +28,7 @@ const BlogView = () => {
     const { user } = useSelector(store => store.auth)
     const selectedBlog = blog.find(blog => blog._id === blogId)
     const [blogLike, setBlogLike] = useState(selectedBlog?.likes.length)
-  
+    const { comment } = useSelector(store => store.comment)
     const [liked, setLiked] = useState(selectedBlog?.likes.includes(user?._id) || false);
     const dispatch = useDispatch()
     console.log(selectedBlog);
@@ -65,14 +66,7 @@ const BlogView = () => {
         return formattedDate
     }
 
-    // const handleShare = (blogId) => {
-    //     const blogUrl = `${window.location.origin}/blogs/${blogId}`;
-    //     navigator.clipboard.writeText(blogUrl).then(() => {
-    //         toast.success('Blog link copied to clipboard!');
-    //     }).catch((err) => {
-    //         console.error('Failed to copy:', err);
-    //     });
-    // };
+    
     const handleShare = (blogId) => {
         const blogUrl = `${window.location.origin}/blogs/${blogId}`;
       
@@ -170,7 +164,7 @@ const BlogView = () => {
                             </Button>
                             <Button variant="ghost" size="sm" className="flex items-center gap-1">
                                 <MessageSquare className="h-4 w-4" />
-                                <span> Comments</span>
+                                <span>{comment.length} Comments</span>
                             </Button>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -184,10 +178,9 @@ const BlogView = () => {
                     </div>
 
                 </div>
-               
+                <CommentBox selectedBlog={selectedBlog} />
 
-               
-                 
+
             </div>
         </div>
     )

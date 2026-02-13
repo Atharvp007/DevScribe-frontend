@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "./ui/input";
-import { FaEdit, FaMoon, FaRegEdit, FaSun } from 'react-icons/fa'
+import { FaEdit, FaMoon, FaRegEdit, FaSun } from "react-icons/fa";
 import { Button } from "./ui/button";
-import { LiaCommentSolid } from 'react-icons/lia'
+import { LiaCommentSolid } from "react-icons/lia";
 import Logo from "../assets/logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,25 +11,27 @@ import { toggleTheme } from "../redux/themeSlice";
 import { toast } from "sonner";
 import axios from "axios";
 import { setUser } from "../redux/authSlice";
-import userLogo from "../assets/user.jpg"
+import userLogo from "../assets/user.jpg";
+import { HiMenuAlt1, HiMenuAlt3 } from "react-icons/hi";
+import ResponsiveMenu from "./ResponsiveMenu";
 import {
-    ChartColumnBig,
-    Cloud,
-    CreditCard,
-    Github,
-    Keyboard,
-    LifeBuoy,
-    LogOut,
-    Mail,
-    MessageSquare,
-    Plus,
-    PlusCircle,
-    Search,
-    Settings,
-    User,
-    UserPlus,
-    Users,
-} from "lucide-react"
+  ChartColumnBig,
+  Cloud,
+  CreditCard,
+  Github,
+  Keyboard,
+  LifeBuoy,
+  LogOut,
+  Mail,
+  MessageSquare,
+  Plus,
+  PlusCircle,
+  Search,
+  Settings,
+  User,
+  UserPlus,
+  Users,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,12 +45,14 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu"
+} from "../components/ui/dropdown-menu";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const { theme } = useSelector((store) => store.theme);
+  const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+  const [openNav, setOpenNav] = useState(false);
   const navigate = useNavigate();
   const logoutHandler = async (e) => {
     try {
@@ -65,6 +69,18 @@ const Navbar = () => {
       toast.error(error.response.data.message);
     }
   };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim() !== "") {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+      setSearchTerm("");
+    }
+  };
+  const toggleNav = () => {
+    setOpenNav(!openNav);
+  };
+
   return (
     <div className="py-2 fixed w-full dark:bg-gray-800 dark:border-b-gray-600 border-b-gray-300 border-b-2 bg-white z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-0">
@@ -89,9 +105,14 @@ const Navbar = () => {
               placeholder="Search..."
               className="border border-gray-700 dark:border-gray-900 bg-gray-300 dark:bg-gray-900 
                   w-75 hidden md:block"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            <Button className="absolute right-0 top-0 h-full px-4">
+            <Button
+              className="absolute right-0 top-0 h-full px-4"
+              onClick={handleSearch}
+            >
               <Search />
             </Button>
           </div>
@@ -121,46 +142,54 @@ const Navbar = () => {
             {/* LOGIN / USER SECTION */}
             {user ? (
               <div className="ml-7 flex gap-3 items-center">
-               <DropdownMenu className="">
-                                    <DropdownMenuTrigger asChild>
-                                        <Avatar className="cursor-pointer">
-                                            <AvatarImage src={user.photoUrl || userLogo} />
-                                            <AvatarFallback>CN</AvatarFallback>
-                                        </Avatar>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="w-56 dark:bg-gray-800">
-                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuGroup>
-                                            <DropdownMenuItem onClick={() => navigate('/dashboard/profile')}>
-                                                <User />
-                                                <span>Profile</span>
-                                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => navigate('/dashboard/your-blog')}>
-                                                <ChartColumnBig />
-                                                <span>Your Blog</span>
-                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => navigate('/dashboard/comments')}>
-                                                <LiaCommentSolid />
-                                                <span>Comments</span>
-                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => navigate('/dashboard/write-blog')}>
-                                                <FaRegEdit />
-                                                <span>Write Blog</span>
-                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                                            </DropdownMenuItem>
-                                        </DropdownMenuGroup>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={logoutHandler}>
-                                            <LogOut />
-                                            <span>Log out</span>
-                                            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                <DropdownMenu className="">
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="cursor-pointer">
+                      <AvatarImage src={user.photoUrl || userLogo} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56 dark:bg-gray-800">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        onClick={() => navigate("/dashboard/profile")}
+                      >
+                        <User />
+                        <span>Profile</span>
+                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => navigate("/dashboard/your-blog")}
+                      >
+                        <ChartColumnBig />
+                        <span>Your Blog</span>
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => navigate("/dashboard/comments")}
+                      >
+                        <LiaCommentSolid />
+                        <span>Comments</span>
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => navigate("/dashboard/write-blog")}
+                      >
+                        <FaRegEdit />
+                        <span>Write Blog</span>
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={logoutHandler}>
+                      <LogOut />
+                      <span>Log out</span>
+                      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Link to="/login">
                   <Button className="hidden md:block" onClick={logoutHandler}>
                     Logout
@@ -179,7 +208,17 @@ const Navbar = () => {
               </div>
             )}
           </div>
+          {openNav ? (
+            <HiMenuAlt3 onClick={toggleNav} className="w-7 h-7 md:hidden" />
+          ) : (
+            <HiMenuAlt1 onClick={toggleNav} className="w-7 h-7 md:hidden" />
+          )}
         </nav>
+        <ResponsiveMenu
+          openNav={openNav}
+          setOpenNav={setOpenNav}
+          logoutHandler={logoutHandler}
+        />
       </div>
     </div>
   );
